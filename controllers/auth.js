@@ -41,8 +41,7 @@ router.post("/sign-in", async (req, res) => {
       username: userInDatabase.username,
       _id: userInDatabase._id,
     };
-    req.session.messages = "You Logged In Successfully";
-    res.redirect("/");
+    res.render("show");
   } catch (err) {
     console.log(err);
     req.session.messages = "Please try again later";
