@@ -15,7 +15,7 @@
       <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <div class="container">
+    <div class="container" style="margin-top: -160px;">
       <br>
       <br>
     <% if(user){ %>
@@ -25,42 +25,38 @@
     </p>
     <%}else{ %>
     <h1 style="display: flex; justify-content: center; margin-top: 150px;">Create A New Account.</h1>
-    
+    <br>
       <div class="row">
     <div class="col-md-5 mx-auto">
     <div id="first">
       
                 <form action="/auth/sign-up" method="POST" name="login">
-                  <br>
-                  <br>
-                        <div class="form-group">
+                 <div class="form-group">
                             <label for="username">User Name</label>
-                            <input type="text" name="username"  class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter Your User Name">
+                            <input type="text" name="username"  class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter Your User Name" required>
                         </div>
                         <br>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Your Password">
+                            <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Your Password" required>
                         </div>
                         <br>
                         <div class="form-group">
                             <label for="confirmPassword">Confirm Password</label>
-                            <input type="password" name="confirmPassword" id="confirmPassword"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Your Password Again">
+                            <input type="password" name="confirmPassword" id="confirmPassword"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Your Password Again" required>
                         </div>
                         <br>
                         <div class="col-md-14 text-center">
                             <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Sign Up</button>
                         </div>
+                        <br>
+                        <p class="text-center">You have account? <a href="/auth/sign-in" id="signup">Sign in here</a></p>
                       </form>
                     </div>
                   </div>
                 </div>   
               </div>
             </div>   
-    <!-- <a href="/auth/sign-up">Sign Up</a>
-    <br />
-    <br /> -->
-    <!-- <a href="/auth/sign-in">Sign In</a> -->
     <% } %>
     </div>
   </body>

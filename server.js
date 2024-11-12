@@ -9,7 +9,6 @@ const passUserToView = require("./middleware/pass-user-to-view");
 const mongoose = require("mongoose");
 const methodOverRide = require("method-override");
 const port = process.env.PORT ? process.env.PORT : 3000;
-
 mongoose.connect(process.env.MONGODB_URI);
 
 mongoose.connection.on("connected", () => {
@@ -28,7 +27,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+app.set("view engine", "ejs"); // Set EJS as the default view engine
 app.use(passUserToView);
 // require("controller")
 const authController = require("./controllers/auth");
@@ -52,10 +51,6 @@ app.get("/vip-lounge", isSignedIn, (req, res) => {
   res.send(`Welcome to the party ${req.session.user.username}`);
 });
 
-
-
 app.listen(port, () => {
   console.log(`localhost:${port}`);
 });
-
-
