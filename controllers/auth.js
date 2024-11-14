@@ -1,16 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const Recipes = require("../models/recipe");
 const bcrypt = require("bcrypt");
 const isSignedIn = require("../middleware/is-sign-in");
 
 exports.signup_get = (req, res) => {
   res.render("auth/sign-up");
 };
-exports.rec = async (req, res) => {
-  const test = await User.find();
-  res.render("auth/recipes", { User: test });
-};
+
 
 exports.signup_post = async (req, res) => {
   const userInDatabase = await User.findOne({ username: req.body.username });

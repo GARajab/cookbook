@@ -35,6 +35,9 @@ app.use(passUserToView);
 const authRouter = require("./routes/auth");
 app.use("/auth", authRouter);
 
+const recipesRouter = require("./routes/recipes");
+app.use("/", recipesRouter);
+
 app.use((req, res, next) => {
   if (req.session.messages) {
     res.locals.messages = req.session.messages;
