@@ -10,7 +10,6 @@ const mongoose = require("mongoose");
 const methodOverRide = require("method-override");
 const port = process.env.PORT ? process.env.PORT : 3000;
 
-
 mongoose.connect(process.env.MONGODB_URI);
 
 mongoose.connection.on("connected", () => {
@@ -35,8 +34,8 @@ app.use(passUserToView);
 const authRouter = require("./routes/auth");
 app.use("/auth", authRouter);
 
-const recipesRouter = require("./routes/recipes");
-app.use("/", recipesRouter);
+const recipesRouter = require("./routes/books");
+app.use("/books", recipesRouter);
 
 app.use((req, res, next) => {
   if (req.session.messages) {
@@ -51,7 +50,6 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.render("auth/sign-in.ejs");
 });
-
 
 app.listen(port, () => {
   console.log(`localhost:${port}`);

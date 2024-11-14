@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
-const Recipes = require("../models/recipe");
+const Recipes = require("../models/books");
 const bcrypt = require("bcrypt");
 const isSignedIn = require("../middleware/is-sign-in");
 
@@ -46,7 +46,7 @@ exports.signin_post = async (req, res) => {
       _id: userInDatabase._id,
       createdAt: userInDatabase.createdAt,
     };
-    res.render("show", { user: req.session.user });
+    res.render("books/show", { user: req.session.user });
   } catch (err) {
     console.log(err);
     req.session.messages = "Please try again later";
