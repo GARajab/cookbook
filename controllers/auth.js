@@ -2,11 +2,17 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-router.get("/sign-up", (req, res) => {
-  res.render("auth/sign-up");
-});
+const isSignedIn = require("../middleware/is-sign-in");
 
-router.post("/sign-up", async (req, res) => {
+exports.signup_get = (req, res) => {
+  res.render("auth/sign-up");
+};
+exports.rec = async (req, res) => {
+  const test = await User.find();
+  res.render("auth/recipes", { User: test });
+};
+
+exports.signup_post = async (req, res) => {
   const userInDatabase = await User.findOne({ username: req.body.username });
   if (userInDatabase) {
     return res.send("Username already in database");
@@ -18,13 +24,13 @@ router.post("/sign-up", async (req, res) => {
   req.body.password = hashedPassword;
   const user = await User.create(req.body);
   res.render("auth/sign-in");
-});
+};
 
-router.get("/sign-in", (req, res) => {
+exports.signin_get = (req, res) => {
   res.render("auth/sign-in.ejs");
-});
+};
 
-router.post("/sign-in", async (req, res) => {
+exports.signin_post = async (req, res) => {
   try {
     const userInDatabase = await User.findOne({ username: req.body.username });
     if (!userInDatabase) {
@@ -40,22 +46,16 @@ router.post("/sign-in", async (req, res) => {
     req.session.user = {
       username: userInDatabase.username,
       _id: userInDatabase._id,
+      createdAt: userInDatabase.createdAt,
     };
-    res.render("show");
+    res.render("show", { user: req.session.user });
   } catch (err) {
     console.log(err);
     req.session.messages = "Please try again later";
   }
-});
+};
 
-router.get("/sign-out", (req, res) => {
+exports.signout = (req, res) => {
   req.session.destroy();
-  // res.send("Logged Out Successfully");
-  res.redirect("/");
-});
-
-router.get("/show", (req, res) => {
-  res.redirect("/show");
-});
-
-module.exports = router;
+  res.redirect("/auth/sign-in");
+};
