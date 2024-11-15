@@ -8,7 +8,7 @@ const recipeSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    ingredients: [
+    Ingredients: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Ingredient",

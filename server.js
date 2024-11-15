@@ -2,12 +2,18 @@ const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
 const app = express();
-const morgan = require("morgan");
-const session = require("express-session");
-const isSignedIn = require("./middleware/is-sign-in");
-const passUserToView = require("./middleware/pass-user-to-view");
+
 const mongoose = require("mongoose");
 const methodOverRide = require("method-override");
+const morgan = require("morgan");
+const session = require("express-session");
+
+const isSignedIn = require("./middleware/is-sign-in");
+const passUserToView = require("./middleware/pass-user-to-view");
+const authController = require("./controllers/auth.js");
+const recipesController = require("./controllers/recipes.js");
+const ingredientsController = require("./controllers/ingredients.js");
+
 const port = process.env.PORT ? process.env.PORT : 3000;
 
 mongoose.connect(process.env.MONGODB_URI);
@@ -29,13 +35,19 @@ app.use(
   })
 );
 app.set("view engine", "ejs"); // Set EJS as the default view engine
-app.use(passUserToView);
+
 // require("controller")
+app.use(passUserToView);
+app.use("/auth", authController);
+app.use(isSignedIn);
+app.use("/recipes", recipesController);
+app.use("/ingredients", ingredientsController);
+
+// require("routes")
 const authRouter = require("./routes/auth");
 app.use("/auth", authRouter);
-
-const recipesRouter = require("./routes/books");
-app.use("/books", recipesRouter);
+const recipesRouter = require("./routes/recipes.js");
+app.use("/recipes", recipesRouter);
 
 app.use((req, res, next) => {
   if (req.session.messages) {
@@ -47,7 +59,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   res.render("auth/sign-in.ejs");
 });
 
